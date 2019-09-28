@@ -21,12 +21,17 @@ var sprite;
 var cursors;
 var text;
 
+var bullet;
+var bullets;
+var bulletTime = 0;
+
 var game = new Phaser.Game(config);
 
 function preload ()
 {
     this.load.image('bullet', 'assets/games/asteroids/bullets.png');
     this.load.image('ship', 'assets/images/ships/ship_blue_right.png');
+    this.load.image('bullet', 'assets/games/sfx/bullets.png');
 }
 
 function create ()
@@ -60,6 +65,8 @@ function update ()
     else if (cursors.right.isDown)
     {
         sprite.setAngularVelocity(300);
+    } else if(cursors.space.isDown){
+        fireBullet();
     }
     else
     {
@@ -76,4 +83,20 @@ function update ()
     this.physics.world.wrap(sprite, 32);
 
     // bullets.forEachExists(screenWrap, this);
+}
+
+function fireBullet() {
+    if (game.time.now > bulletTime)
+    {
+        bullet = bullets.getFirstExists(false);
+
+        if (bullet)
+        {
+            bullet.reset(sprite.body.x + 16, sprite.body.y + 16);
+            bullet.lifespan = 2000;
+            bullet.rotation = sprite.rotation;
+            game.physics.arcade.velocityFromRotation(sprite.rotation, 400, bullet.body.velocity);
+            bulletTime = game.time.now + 50;
+        }
+    }
 }
