@@ -23,6 +23,7 @@ var sprite;
 var cursors;
 var text;
 var asteroids;
+var asteroidsHalf;
 
 // var bullets;
 var lastFired = 0;
@@ -39,6 +40,7 @@ function preload ()
     this.load.image('ship', 'assets/images/ships/ship_blue_right.png');
     this.load.image('bullet', 'assets/images/sfx/bullets.png');
     this.load.image('asteroid', 'assets/images/asteroids/asteroid_brown.png');
+    this.load.image('asteroid_half', 'assets/images/asteroids/asteroid_brown_0.5.png');
 }
 
 function create ()
@@ -93,9 +95,10 @@ function create ()
 
     asteroids = this.physics.add.group({
         key: 'asteroid',
-        repeat: 5,
+        repeat: 0,
         setXY:{x:12, y:0, stepX:150}
     });
+
     // scene = this;
     // for(let i =0; i<3; i++){
     //     asteroids.create(100*i,100*i,'asteroid');
@@ -223,14 +226,25 @@ function explodeAsteroid (bullet, asteroid) {
     // disable game if infinite callback
     asteroid.disableBody(true,true);
 
-    // for(let i = 0; i<5; i++){
-    //     asteroids.create(asteroid.x,asteroid.y,'asteroid');
+    // for(let i = 0; i<1; i++){
+    //     let sample = asteroids.create(600,50,'asteroid');
+    //     console.log(sample,"sample")
+    //     sample.displayHeight(20);
+    //     sample.displayWidth(20);
+    //     sample.setSize(100,100);
     // }
     bullet.disableBody(true,true);
 
 }
 
 function explodePlayer (sprite, asteroid) {
+
+    for(let i = 0; i<1; i++){
+        let sample = asteroids.create(600,50,'asteroid_half');
+        console.log(sample,"sample")
+        sample.setSize(50,50);
+    }
+
     asteroid.disableBody(true,true);
     sprite.disableBody(true,true);
 }
