@@ -10,7 +10,7 @@ var config = {
     arcade: {
       fps: 60,
       gravity: { y: 0 },
-      debug: true, //debugging
+      // debug: true, //debugging
     },
   },
   scene: {
@@ -41,15 +41,18 @@ var game = new Phaser.Game(config);
  */
 function preload() {
   this.load.image("ship", "assets/images/ships/ship_blue_right.png");
-  this.load.image("bullet", "assets/images/sfx/bullets.png");
+  // this.load.image("bullet", "assets/images/sfx/bullets.png");
+  this.load.image("bullet", "assets/images/sfx/laser_bright.png");
   this.load.image("asteroid", "assets/images/asteroids/asteroid_brown.png");
   this.load.image(
     "asteroid_half",
     "assets/images/asteroids/asteroid_brown_0.5.png",
   );
+  this.load.image('sky', 'assets/images/skies/background.jpg');
   // this.load.image('sky', 'assets/images/skies/deep-space.jpg');
   // this.load.image('sky', 'assets/images/skies/7000x4000.jpg');
-  this.load.image("sky", "assets/images/skies/5600x3100.jpg");
+  // this.load.image("sky", "assets/images/skies/5600x3100.jpg");
+
 }
 
 /**
@@ -63,7 +66,7 @@ function create() {
   asteroids = this.physics.add.group({
     key: "asteroid",
     repeat: 12,
-    setXY: { x: 150, y: 150, stepX: 300, stepY: 300 },
+    setXY: { x: 200, y: 200, stepX: 300, stepY: 300 },
   });
 
   asteroids.children.iterate(function(child) {
