@@ -91,6 +91,7 @@ function create() {
   // Fire
   onFire = this.physics.add.sprite(player.x,player.y, 'fireSheet');
   // onFire.disableBody(true,true);
+  onFire.visible = false;
 
   // Collider stuff
   this.physics.add.overlap(bullets, asteroids, explodeAsteroid, null, this);
@@ -201,9 +202,13 @@ function explodeAsteroid(bullet, asteroid) {
 function explodePlayer(player, asteroid) {
   asteroid.disableBody(true, true);
   hp = hp -1;
+  // onFire.enableBody(true,true);
+  onFire.visible = true;
+  player.setTint(0xff0000);
   if (hp === 1){
-    onFire.enableBody(true,true);
+    // Do stuff but nothing for now
   } else if(hp === 0){
     player.disableBody(true, true);
+    onFire.visible = false;
   }
 }
