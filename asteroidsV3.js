@@ -8,7 +8,7 @@ var config = {
         arcade: {
             fps: 60,
             gravity: { y: 0 },
-            debug: true //debugging
+            // debug: true //debugging
         }
     },
     scene: {
@@ -33,7 +33,7 @@ var game = new Phaser.Game(config);
 function preload ()
 {
     this.load.image('ship', 'assets/images/ships/ship_blue_right.png');
-    this.load.image('bullet', 'assets/games/sfx/bullets.png');
+    this.load.image('bullet', 'assets/images/sfx/bullets.png');
 }
 
 function create ()
@@ -137,7 +137,7 @@ function update (time, delta)
     }
 
     // You can shoot while moving
-    if (cursors.space.isDown)
+    if (cursors.space.isDown && time>lastFired)
     {
         fireBullet();
         // var bullet = bullets.get();
@@ -161,16 +161,16 @@ function update (time, delta)
 function fireBullet() {
 
     let bulletSpeed = 100;
-    let realAngle;
+    // let realAngle;
     
-    if (sprite.angle <0){
-        realAngle = -sprite.angle
-    } else if (sprite.angle > 180) {
-        realAngle = sprite.angle-180
-    }
+    // if (sprite.angle <0){
+    //     realAngle = -sprite.angle
+    // } else if (sprite.angle > 180) {
+    //     realAngle = sprite.angle-180
+    // }
 
-    console.log(realAngle,"relaAngle");
-    console.log(Math.cos(realAngle), "real angle")
+    // console.log(realAngle,"relaAngle");
+    // console.log(Math.cos(realAngle), "real angle")
 
     // console.log(realAngle,"realAngle");
     let bullet = bullets.create(sprite.x,sprite.y,'bullet');
