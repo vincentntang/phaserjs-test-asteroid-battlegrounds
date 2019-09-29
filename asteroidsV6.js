@@ -42,7 +42,7 @@ var game = new Phaser.Game(config);
  */
 function preload() {
   this.load.image("ship", "assets/images/ships/ship_blue_right.png");
-  this.load.image("fire", "../../client/dist/assets/images/asteroids/ship_red_right.png");
+  // this.load.image("fire", "../../client/dist/assets/images/asteroids/ship_red_right.png");
   this.load.image("bullet", "assets/images/sfx/bullets.png");
   // this.load.image("bullet", "assets/images/sfx/laser_bright.png");
   this.load.image("asteroid", "assets/images/asteroids/asteroid_brown.png");
@@ -51,6 +51,7 @@ function preload() {
     "assets/images/asteroids/asteroid_brown_0.5.png",
   );
   this.load.image('sky', 'assets/images/skies/background.jpg');
+  this.load.spritesheet('fireSheet', 'assets/images/sprites/fire_120px_small.png', { frameWidth: 120, frameHeight: 120 });
   // this.load.image('sky', 'assets/images/skies/deep-space.jpg');
   // this.load.image('sky', 'assets/images/skies/7000x4000.jpg');
   // this.load.image("sky", "assets/images/skies/5600x3100.jpg");
@@ -88,8 +89,8 @@ function create() {
   text = this.add.text(10, 10, "", { font: "16px Courier", fill: "#00ff00" });
 
   // Fire
-  onFire = this.physics.add.image(player.x,player.y, 'fire');
-  onFire.disableBody(true,true);
+  onFire = this.physics.add.sprite(player.x,player.y, 'fireSheet');
+  // onFire.disableBody(true,true);
 
   // Collider stuff
   this.physics.add.overlap(bullets, asteroids, explodeAsteroid, null, this);
@@ -98,6 +99,15 @@ function create() {
 
   // Follow Player
   this.cameras.main.startFollow(player);
+
+  console.log(this,"this");
+  // Animations
+   this.anims.create({
+    key: 'animFire',
+    frames: this.anims.generateFrameNumbers('fireSheet', { start: 0, end: 4 }),
+    frameRate: 20,
+    repeat: -1
+});
 }
 
 /**
@@ -109,6 +119,8 @@ function update(time) {
   let playerBoxY = 75 + 40 * Math.cos(player.rotation * 2);
   onFire.x = player.x
   onFire.y = player.y
+
+  onFire.anims.play('animFire', true);
 
   console.log("hp", hp);
 
@@ -125,9 +137,11 @@ function update(time) {
   if (cursors.left.isDown) {
     player.setAngularVelocity(-200);
     player.setSize(playerBoxX, playerBoxY, true);
+    onFire.rotation = player.rotation;
   } else if (cursors.right.isDown) {
     player.setAngularVelocity(200);
     player.setSize(playerBoxX, playerBoxY, true);
+    onFire.rotation = player.rotation;
   } else {
     player.setAngularVelocity(0);
   }
