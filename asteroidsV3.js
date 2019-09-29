@@ -23,7 +23,7 @@ var sprite;
 var cursors;
 var text;
 var asteroids;
-var asteroidsHalf;
+// var asteroidsHalf;
 
 // var bullets;
 var lastFired = 0;
@@ -96,9 +96,13 @@ function create ()
     asteroids = this.physics.add.group({
         key: 'asteroid',
         repeat: 0,
-        setXY:{x:12, y:0, stepX:150}
+        setXY:{x:12, y:0, stepX:150},
     });
-    asteroids_half = this.physics.add.group();
+    asteroids.children.iterate(function (child) {
+        child.setAngularVelocity(25);
+    
+    });
+    // asteroids_half = this.physics.add.group();
 
     // scene = this;
     // for(let i =0; i<3; i++){
@@ -240,7 +244,8 @@ function explodeAsteroid (bullet, asteroid) {
             sample.setSize(50,50);
             sample.setVelocityX(100* Math.cos(2.1*i)) // app using 6.28 divide by 3 for 120degrees * i
             sample.setVelocityY(100* Math.sin(2.1*i))
-            sample.explodedTimes = 1; // I just made myself a prop
+            sample.explodedTimes = 1; // I just made myself a new key-value prop
+            sample.setAngularVelocity(100);
         }
     }
     bullet.disableBody(true,true);
