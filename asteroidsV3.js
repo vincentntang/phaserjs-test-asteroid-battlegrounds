@@ -138,8 +138,9 @@ function create ()
 
 function update (time)
 {
-    let spriteBoxX = 70 + 30 * Math.sin(sprite.rotation*2)
-    let spriteBoxY = 70 + 30 * Math.cos(sprite.rotation*2)
+    // Kept playing with values to get this down
+    let spriteBoxX = 75 - 40 * Math.sin(1.57+sprite.rotation*2)  // 1.57 is pi/2
+    let spriteBoxY = 75 + 40 * Math.cos(sprite.rotation*2)
     console.log(spriteBoxX,"spriteBoxX")
     // console.log(sprite.angle, "sprite Angle");
     if (cursors.up.isDown)
@@ -251,7 +252,6 @@ function explodeAsteroid (bullet, asteroid) {
     bullet.disableBody(true,true);
 
 }
-
 function explodePlayer (sprite, asteroid) {
 
     // for(let i = 1; i<4; i++){
