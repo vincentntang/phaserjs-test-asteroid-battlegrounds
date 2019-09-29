@@ -25,7 +25,7 @@ var game = new Phaser.Game(config);
 function preload ()
 {
   this.load.image('ship', 'assets/images/ships/ship_blue_right.png');
-  this.load.image('bullet', 'assets/games/sfx/bullets.png');
+  this.load.image('bullet', 'assets/images/sfx/bullets.png');
 }
 
 function create ()

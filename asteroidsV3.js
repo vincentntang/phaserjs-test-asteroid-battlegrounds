@@ -102,9 +102,8 @@ function create ()
     
 }
 
-function update (time, delta)
+function update (time)
 {
-
     let spriteBoxX = 70 + 30 * Math.sin(sprite.rotation*2)
     let spriteBoxY = 70 + 30 * Math.cos(sprite.rotation*2)
     console.log(spriteBoxX,"spriteBoxX")
@@ -139,7 +138,7 @@ function update (time, delta)
     // You can shoot while moving
     if (cursors.space.isDown && time>lastFired)
     {
-        fireBullet();
+        fireBullet(time);
         // var bullet = bullets.get();
 
         // if (bullet)
@@ -158,9 +157,9 @@ function update (time, delta)
     // bullets.forEachExists(screenWrap, this);
 }
 
-function fireBullet() {
+function fireBullet(time) {
 
-    let bulletSpeed = 100;
+    let bulletSpeed = 300;
     // let realAngle;
     
     // if (sprite.angle <0){
@@ -176,6 +175,8 @@ function fireBullet() {
     let bullet = bullets.create(sprite.x,sprite.y,'bullet');
     bullet.setVelocityX(bulletSpeed * Math.cos(sprite.rotation));
     bullet.setVelocityY(bulletSpeed * Math.sin(sprite.rotation));
+    lastFired = time + 400;
+
     // scene.velocityFromRotation(0, 200, sprite.body.acceleration);
 
 
