@@ -7,7 +7,8 @@ var config = {
         default: "arcade",
         arcade: {
             fps: 60,
-            gravity: { y: 0 }
+            gravity: { y: 0 },
+            debug: true //debugging
         }
     },
     scene: {
@@ -21,21 +22,71 @@ var sprite;
 var cursors;
 var text;
 
-var bullet;
 var bullets;
-var bulletTime = 0;
+var lastFired = 0;
+var speed;
+var stats;
+
 
 var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('bullet', 'assets/games/asteroids/bullets.png');
     this.load.image('ship', 'assets/images/ships/ship_blue_right.png');
     this.load.image('bullet', 'assets/games/sfx/bullets.png');
 }
 
 function create ()
 {
+    // var Bullet = new Phaser.Class({
+
+    //     Extends: Phaser.GameObjects.Image,
+  
+    //     initialize:
+  
+    //     function Bullet (scene)
+    //     {
+    //         Phaser.GameObjects.Image.call(this, scene, 0, 0, 'bullet');
+  
+    //         this.speed = Phaser.Math.GetSpeed(400, 1);
+    //     },
+  
+    //     fire: function (x, y)
+    //     {
+    //         this.setPosition(x, y - 50);
+  
+    //         this.setActive(true);
+    //         this.setVisible(true);
+    //     },
+  
+    //     update: function (time, delta)
+    //     {
+    //         this.y -= this.speed * delta;
+  
+    //         if (this.y < -50)
+    //         {
+    //             this.setActive(false);
+    //             this.setVisible(false);
+    //         }
+    //     }
+  
+    // });
+  
+    // bullets = this.add.group({
+    //     classType: Bullet,
+    //     maxSize: 10,
+    //     runChildUpdate: true
+    // });
+
+    // bullets = this.add.group({
+    //     classType: Bullet,
+    //     maxSize: 10,
+    //     runChildUpdate: true
+    // });
+
+    bullets = this.physics.add.group();
+
+
     sprite = this.physics.add.image(400, 300, 'ship');
 
     sprite.setDamping(true);
@@ -45,9 +96,10 @@ function create ()
     cursors = this.input.keyboard.createCursorKeys();
 
     text = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
+    
 }
 
-function update ()
+function update (time, delta)
 {
     if (cursors.up.isDown)
     {
@@ -65,20 +117,27 @@ function update ()
     else if (cursors.right.isDown)
     {
         sprite.setAngularVelocity(300);
-    } else if(cursors.space.isDown){
-        fireBullet();
-    }
+    } 
     else
     {
         sprite.setAngularVelocity(0);
     }
 
+    // You can shoot while moving
+    if (cursors.space.isDown && time > lastFired)
+    {
+        var bullet = bullets.get();
+
+        if (bullet)
+        {
+            bullet.fire(ship.x, ship.y);
+
+            lastFired = time + 50;
+        }
+    }
+
     text.setText('Speed: ' + sprite.body.speed);
 
-    // if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
-    // {
-    //     fireBullet();
-    // }
 
     this.physics.world.wrap(sprite, 32);
 
