@@ -239,10 +239,12 @@ function explodeAsteroid (bullet, asteroid) {
 
 function explodePlayer (sprite, asteroid) {
 
-    for(let i = 0; i<1; i++){
-        let sample = asteroids.create(600,50,'asteroid_half');
+    for(let i = 1; i<4; i++){
+        let sample = asteroids.create(asteroid.x+ 35*Math.cos(2.1*i),asteroid.y+35*Math.sin(2.1*i),'asteroid_half');
         console.log(sample,"sample")
         sample.setSize(50,50);
+        sample.setVelocityX(100* Math.cos(2.1*i)) // app using 6.28 divide by 3 for 120degrees * i
+        sample.setVelocityY(100* Math.sin(2.1*i))
     }
 
     asteroid.disableBody(true,true);
