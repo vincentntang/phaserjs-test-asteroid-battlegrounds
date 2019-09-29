@@ -101,8 +101,8 @@ function create ()
 
     asteroids = this.physics.add.group({
         key: 'asteroid',
-        repeat: 20,
-        setXY:{x:100, y:100, stepX:400, stepY:400},
+        repeat: 12,
+        setXY:{x:150, y:150, stepX:300, stepY:300},
     });
     asteroids.children.iterate(function (child) {
         child.setAngularVelocity(25);
