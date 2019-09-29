@@ -18,15 +18,19 @@ var config = {
     }
 };
 
+// Make things globally available
 var sprite;
 var cursors;
 var text;
+var asteroids;
 
 // var bullets;
 var lastFired = 0;
 // var speed;
 // var stats;
 
+// Debugger
+let calls = 0;
 
 var game = new Phaser.Game(config);
 
@@ -115,7 +119,8 @@ function create ()
 
     // Collider stuff
     this.physics.add.overlap(bullets, asteroids, explodeAsteroid, null, this);
-    
+    this.physics.add.overlap(asteroids, asteroids, explodeAsteroid, null, this);
+    this.physics.add.overlap(sprite, asteroids, explodePlayer, null, this);
 }
 
 function update (time)
@@ -212,6 +217,20 @@ function fireBullet(time) {
 }
 
 function explodeAsteroid (bullet, asteroid) {
+    calls = calls++;
+    if(calls > 10) return;
+    
+    // disable game if infinite callback
     asteroid.disableBody(true,true);
+
+    // for(let i = 0; i<5; i++){
+    //     asteroids.create(asteroid.x,asteroid.y,'asteroid');
+    // }
     bullet.disableBody(true,true);
+
+}
+
+function explodePlayer (sprite, asteroid) {
+    asteroid.disableBody(true,true);
+    sprite.disableBody(true,true);
 }
