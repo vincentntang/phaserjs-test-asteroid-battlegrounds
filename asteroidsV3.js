@@ -87,11 +87,19 @@ function create ()
 
     bullets = this.physics.add.group();
 
-    asteroids = this.physics.add.group();
+    asteroids = this.physics.add.group({
+        key: 'asteroid',
+        repeat: 5,
+        setXY:{x:12, y:0, stepX:150}
+    });
     // scene = this;
-    for(let i =0; i<3; i++){
-        asteroids.create(100*i,100*i,'asteroid');
-    }
+    // for(let i =0; i<3; i++){
+    //     asteroids.create(100*i,100*i,'asteroid');
+    // }
+    asteroids.children.iterate(function(child){
+        child.setVelocityX(Phaser.Math.FloatBetween(0,100));
+        child.setVelocityY(Phaser.Math.FloatBetween(0,100));
+    })
 
     sprite = this.physics.add.image(400, 300, 'ship');
 
