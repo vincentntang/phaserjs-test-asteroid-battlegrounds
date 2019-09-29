@@ -63,6 +63,7 @@ function create ()
       }
 
   });
+  
 
   bullets = this.add.group({
       classType: Bullet,

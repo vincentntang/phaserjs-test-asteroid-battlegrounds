@@ -86,8 +86,10 @@ function create ()
 
     bullets = this.physics.add.group();
 
+    // scene = this;
 
     sprite = this.physics.add.image(400, 300, 'ship');
+
 
     sprite.setDamping(true);
     sprite.setDrag(0.99);
@@ -101,9 +103,14 @@ function create ()
 
 function update (time, delta)
 {
+
+    // console.log(sprite.angle, "sprite Angle");
     if (cursors.up.isDown)
     {
+        // console.log(this,"this??")
         this.physics.velocityFromRotation(sprite.rotation, 200, sprite.body.acceleration);
+        // console.log("acce",sprite.body.acceleration)
+        // this.physics.velocityFromRotation(0, 150, sprite.body.acceleration);
     }
     else
     {
@@ -124,16 +131,17 @@ function update (time, delta)
     }
 
     // You can shoot while moving
-    if (cursors.space.isDown && time > lastFired)
+    if (cursors.space.isDown)
     {
-        var bullet = bullets.get();
+        fireBullet();
+        // var bullet = bullets.get();
 
-        if (bullet)
-        {
-            bullet.fire(ship.x, ship.y);
+        // if (bullet)
+        // {
+        //     bullet.fire(ship.x, ship.y);
 
-            lastFired = time + 50;
-        }
+        //     lastFired = time + 50;
+        // }
     }
 
     text.setText('Speed: ' + sprite.body.speed);
@@ -145,17 +153,37 @@ function update (time, delta)
 }
 
 function fireBullet() {
-    if (game.time.now > bulletTime)
-    {
-        bullet = bullets.getFirstExists(false);
 
-        if (bullet)
-        {
-            bullet.reset(sprite.body.x + 16, sprite.body.y + 16);
-            bullet.lifespan = 2000;
-            bullet.rotation = sprite.rotation;
-            game.physics.arcade.velocityFromRotation(sprite.rotation, 400, bullet.body.velocity);
-            bulletTime = game.time.now + 50;
-        }
+    let bulletSpeed = 100;
+    let realAngle;
+    
+    if (sprite.angle <0){
+        realAngle = -sprite.angle
+    } else if (sprite.angle > 180) {
+        realAngle = sprite.angle-180
     }
+
+    console.log(realAngle,"relaAngle");
+    console.log(Math.cos(realAngle), "real angle")
+
+    // console.log(realAngle,"realAngle");
+    let bullet = bullets.create(sprite.x,sprite.y,'bullet');
+    bullet.setVelocityX(bulletSpeed * Math.cos(sprite.rotation));
+    bullet.setVelocityY(bulletSpeed * Math.sin(sprite.rotation));
+    // scene.velocityFromRotation(0, 200, sprite.body.acceleration);
+
+
+    // if (game.time.now > bulletTime)
+    // {
+    //     bullet = bullets.getFirstExists(false);
+
+    //     if (bullet)
+    //     {
+    //         bullet.reset(sprite.body.x + 16, sprite.body.y + 16);
+    //         bullet.lifespan = 2000;
+    //         bullet.rotation = sprite.rotation;
+    //         game.physics.arcade.velocityFromRotation(sprite.rotation, 400, bullet.body.velocity);
+    //         bulletTime = game.time.now + 50;
+    //     }
+    // }
 }
