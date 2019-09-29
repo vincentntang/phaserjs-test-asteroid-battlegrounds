@@ -94,6 +94,7 @@ function create ()
     sprite.setDamping(true);
     sprite.setDrag(0.99);
     sprite.setMaxVelocity(200);
+    sprite.setSize(40,110,true);
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -104,6 +105,9 @@ function create ()
 function update (time, delta)
 {
 
+    let spriteBoxX = 70 + 30 * Math.sin(sprite.rotation*2)
+    let spriteBoxY = 70 + 30 * Math.cos(sprite.rotation*2)
+    console.log(spriteBoxX,"spriteBoxX")
     // console.log(sprite.angle, "sprite Angle");
     if (cursors.up.isDown)
     {
@@ -120,10 +124,12 @@ function update (time, delta)
     if (cursors.left.isDown)
     {
         sprite.setAngularVelocity(-300);
+        sprite.setSize(spriteBoxX, spriteBoxY, true);
     }
     else if (cursors.right.isDown)
     {
         sprite.setAngularVelocity(300);
+        sprite.setSize(spriteBoxX,spriteBoxY,true);
     } 
     else
     {
