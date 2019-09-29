@@ -178,5 +178,8 @@ function explodeAsteroid(bullet, asteroid) {
  */
 function explodePlayer(player, asteroid) {
   asteroid.disableBody(true, true);
-  player.disableBody(true, true);
+  hp = hp -1;
+  if (hp === 0){
+    player.disableBody(true, true);
+  }
 }
