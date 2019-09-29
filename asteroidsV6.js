@@ -21,11 +21,12 @@ var config = {
 };
 
 // Make things globally available
-var sprite;
+var player;
 var cursors;
 var text;
 var asteroids;
 var lastFired = 0;
+var hp = 2;
 
 // var asteroidsHalf;
 // var bullets;
@@ -71,11 +72,11 @@ function create() {
     child.setVelocityY(Phaser.Math.FloatBetween(0, 100));
   });
 
-  sprite = this.physics.add.image(800, 1200, "ship");
-  sprite.setDamping(true);
-  sprite.setDrag(0.99);
-  sprite.setMaxVelocity(200);
-  sprite.setSize(40, 110, true);
+  player = this.physics.add.image(800, 1200, "ship");
+  player.setDamping(true);
+  player.setDrag(0.99);
+  player.setMaxVelocity(200);
+  player.setSize(40, 110, true);
 
   cursors = this.input.keyboard.createCursorKeys();
 
@@ -84,38 +85,40 @@ function create() {
   // Collider stuff
   this.physics.add.overlap(bullets, asteroids, explodeAsteroid, null, this);
   this.physics.add.overlap(asteroids, asteroids, explodeAsteroid, null, this);
-  this.physics.add.overlap(sprite, asteroids, explodePlayer, null, this);
+  this.physics.add.overlap(player, asteroids, explodePlayer, null, this);
 
   // Follow Player
-  this.cameras.main.startFollow(sprite);
+  this.cameras.main.startFollow(player);
 }
 
 /**
  * ComponentDidUpdate
  */
 function update(time) {
-  // Calculates new spritebox changes
-  let spriteBoxX = 75 - 40 * Math.sin(1.57 + sprite.rotation * 2); // 1.57 is pi/2
-  let spriteBoxY = 75 + 40 * Math.cos(sprite.rotation * 2);
+  // Calculates new playerbox changes
+  let playerBoxX = 75 - 40 * Math.sin(1.57 + player.rotation * 2); // 1.57 is pi/2
+  let playerBoxY = 75 + 40 * Math.cos(player.rotation * 2);
+
+  console.log("hp", hp);
 
   if (cursors.up.isDown) {
     this.physics.velocityFromRotation(
-      sprite.rotation,
+      player.rotation,
       200,
-      sprite.body.acceleration,
+      player.body.acceleration,
     );
   } else {
-    sprite.setAcceleration(0);
+    player.setAcceleration(0);
   }
 
   if (cursors.left.isDown) {
-    sprite.setAngularVelocity(-300);
-    sprite.setSize(spriteBoxX, spriteBoxY, true);
+    player.setAngularVelocity(-200);
+    player.setSize(playerBoxX, playerBoxY, true);
   } else if (cursors.right.isDown) {
-    sprite.setAngularVelocity(300);
-    sprite.setSize(spriteBoxX, spriteBoxY, true);
+    player.setAngularVelocity(200);
+    player.setSize(playerBoxX, playerBoxY, true);
   } else {
-    sprite.setAngularVelocity(0);
+    player.setAngularVelocity(0);
   }
 
   // You can shoot while moving
@@ -123,9 +126,9 @@ function update(time) {
     fireBullet(time);
   }
 
-  text.setText("Speed: " + sprite.body.speed);
+  text.setText("Speed: " + player.body.speed);
 
-  this.physics.world.wrap(sprite, 32);
+  this.physics.world.wrap(player, 32);
 }
 
 /**
@@ -134,10 +137,10 @@ function update(time) {
 function fireBullet(time) {
   let bulletSpeed = 300;
 
-  let bullet = bullets.create(sprite.x, sprite.y, "bullet");
-  bullet.setVelocityX(bulletSpeed * Math.cos(sprite.rotation));
-  bullet.setVelocityY(bulletSpeed * Math.sin(sprite.rotation));
-  lastFired = time + 400;
+  let bullet = bullets.create(player.x, player.y, "bullet");
+  bullet.setVelocityX(bulletSpeed * Math.cos(player.rotation));
+  bullet.setVelocityY(bulletSpeed * Math.sin(player.rotation));
+  lastFired = time + 550;
 }
 
 /**
@@ -170,7 +173,7 @@ function explodeAsteroid(bullet, asteroid) {
 /**
  * Blow up player
  */
-function explodePlayer(sprite, asteroid) {
+function explodePlayer(player, asteroid) {
   asteroid.disableBody(true, true);
-  sprite.disableBody(true, true);
+  player.disableBody(true, true);
 }
