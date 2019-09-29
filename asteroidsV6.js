@@ -100,6 +100,7 @@ function create() {
 
   // Follow Player
   this.cameras.main.startFollow(player);
+  player.setCollideWorldBounds(true);
 
   console.log(this,"this");
   // Animations
@@ -108,7 +109,7 @@ function create() {
     frames: this.anims.generateFrameNumbers('fireSheet', { start: 0, end: 4 }),
     frameRate: 20,
     repeat: -1
-});
+  });
 }
 
 /**
