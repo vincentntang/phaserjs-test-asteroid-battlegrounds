@@ -1,8 +1,10 @@
 var config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
-    width: 800,
-    height: 600,
+    // width: 800,
+    // height: 600,
+    width: 2400,
+    height: 1800,
     physics: {
         default: "arcade",
         arcade: {
@@ -41,10 +43,14 @@ function preload ()
     this.load.image('bullet', 'assets/images/sfx/bullets.png');
     this.load.image('asteroid', 'assets/images/asteroids/asteroid_brown.png');
     this.load.image('asteroid_half', 'assets/images/asteroids/asteroid_brown_0.5.png');
+    // this.load.image('sky', 'assets/images/skies/deep-space.jpg');
+    // this.load.image('sky', 'assets/images/skies/7000x4000.jpg');
+    this.load.image('sky', 'assets/images/skies/5600x3100.jpg');
 }
 
 function create ()
 {
+    this.add.image(400, 300, 'sky');
     // var Bullet = new Phaser.Class({
 
     //     Extends: Phaser.GameObjects.Image,
@@ -95,8 +101,8 @@ function create ()
 
     asteroids = this.physics.add.group({
         key: 'asteroid',
-        repeat: 0,
-        setXY:{x:12, y:0, stepX:150},
+        repeat: 20,
+        setXY:{x:100, y:100, stepX:400, stepY:400},
     });
     asteroids.children.iterate(function (child) {
         child.setAngularVelocity(25);
@@ -134,6 +140,9 @@ function create ()
     // this.physics.add.overlap(asteroids, asteroids_half, explodeAsteroidHalf, null, this);
     // this.physics.add.overlap(asteroids_half, asteroids_half, explodeAsteroidHalf, null, this);
     // this.physics.add.overlap(asteroids_half, asteroids_half, explodeAsteroidHalf, null, this);
+
+    // this.cameras.main.setSize(400, 300);
+    this.cameras.main.startFollow(sprite);
 }
 
 function update (time)
