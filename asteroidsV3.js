@@ -8,7 +8,7 @@ var config = {
         arcade: {
             fps: 60,
             gravity: { y: 0 },
-            // debug: true //debugging
+            debug: true //debugging
         }
     },
     scene: {
@@ -22,10 +22,10 @@ var sprite;
 var cursors;
 var text;
 
-var bullets;
+// var bullets;
 var lastFired = 0;
-var speed;
-var stats;
+// var speed;
+// var stats;
 
 
 var game = new Phaser.Game(config);
@@ -34,6 +34,7 @@ function preload ()
 {
     this.load.image('ship', 'assets/images/ships/ship_blue_right.png');
     this.load.image('bullet', 'assets/images/sfx/bullets.png');
+    this.load.image('asteroid', 'assets/images/asteroids/asteroid_brown.png');
 }
 
 function create ()
@@ -86,7 +87,9 @@ function create ()
 
     bullets = this.physics.add.group();
 
+    asteroids = this.physics.add.group();
     // scene = this;
+    let asteroid = asteroids.create(50,50,'asteroid');
 
     sprite = this.physics.add.image(400, 300, 'ship');
 
@@ -99,6 +102,9 @@ function create ()
     cursors = this.input.keyboard.createCursorKeys();
 
     text = this.add.text(10, 10, '', { font: '16px Courier', fill: '#00ff00' });
+
+    // Collider stuff
+    this.physics.add.overlap(bullets, asteroids, explodeAsteroid, null, this);
     
 }
 
@@ -193,4 +199,9 @@ function fireBullet(time) {
     //         bulletTime = game.time.now + 50;
     //     }
     // }
+}
+
+function explodeAsteroid (bullet, asteroid) {
+    asteroid.disableBody(true,true);
+    bullet.disableBody(true,true);
 }
