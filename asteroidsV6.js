@@ -10,7 +10,7 @@ var config = {
     arcade: {
       fps: 60,
       gravity: { y: 0 },
-      // debug: true, //debugging
+      debug: true, //debugging
     },
   },
   scene: {
@@ -41,8 +41,8 @@ var game = new Phaser.Game(config);
  */
 function preload() {
   this.load.image("ship", "assets/images/ships/ship_blue_right.png");
-  // this.load.image("bullet", "assets/images/sfx/bullets.png");
-  this.load.image("bullet", "assets/images/sfx/laser_bright.png");
+  this.load.image("bullet", "assets/images/sfx/bullets.png");
+  // this.load.image("bullet", "assets/images/sfx/laser_bright.png");
   this.load.image("asteroid", "assets/images/asteroids/asteroid_brown.png");
   this.load.image(
     "asteroid_half",
