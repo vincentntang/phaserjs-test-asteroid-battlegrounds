@@ -27,6 +27,7 @@ var text;
 var asteroids;
 var lastFired = 0;
 var hp = 2;
+var onFire;
 
 // var asteroidsHalf;
 // var bullets;
@@ -41,6 +42,7 @@ var game = new Phaser.Game(config);
  */
 function preload() {
   this.load.image("ship", "assets/images/ships/ship_blue_right.png");
+  this.load.image("fire", "../../client/dist/assets/images/asteroids/ship_red_right.png");
   this.load.image("bullet", "assets/images/sfx/bullets.png");
   // this.load.image("bullet", "assets/images/sfx/laser_bright.png");
   this.load.image("asteroid", "assets/images/asteroids/asteroid_brown.png");
@@ -85,6 +87,10 @@ function create() {
 
   text = this.add.text(10, 10, "", { font: "16px Courier", fill: "#00ff00" });
 
+  // Fire
+  onFire = this.physics.add.image(player.x,player.y, 'fire');
+  onFire.disableBody(true,true);
+
   // Collider stuff
   this.physics.add.overlap(bullets, asteroids, explodeAsteroid, null, this);
   this.physics.add.overlap(asteroids, asteroids, explodeAsteroid, null, this);
@@ -101,6 +107,8 @@ function update(time) {
   // Calculates new playerbox changes
   let playerBoxX = 75 - 40 * Math.sin(1.57 + player.rotation * 2); // 1.57 is pi/2
   let playerBoxY = 75 + 40 * Math.cos(player.rotation * 2);
+  onFire.x = player.x
+  onFire.y = player.y
 
   console.log("hp", hp);
 
@@ -179,7 +187,9 @@ function explodeAsteroid(bullet, asteroid) {
 function explodePlayer(player, asteroid) {
   asteroid.disableBody(true, true);
   hp = hp -1;
-  if (hp === 0){
+  if (hp === 1){
+    onFire.enableBody(true,true);
+  } else if(hp === 0){
     player.disableBody(true, true);
   }
 }
