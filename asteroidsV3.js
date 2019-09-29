@@ -89,7 +89,9 @@ function create ()
 
     asteroids = this.physics.add.group();
     // scene = this;
-    let asteroid = asteroids.create(50,50,'asteroid');
+    for(let i =0; i<3; i++){
+        asteroids.create(100*i,100*i,'asteroid');
+    }
 
     sprite = this.physics.add.image(400, 300, 'ship');
 
