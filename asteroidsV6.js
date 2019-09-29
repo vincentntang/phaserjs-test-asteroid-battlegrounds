@@ -102,7 +102,6 @@ function create() {
   this.cameras.main.startFollow(player);
   player.setCollideWorldBounds(true);
 
-  console.log(this,"this");
   // Animations
    this.anims.create({
     key: 'animFire',
@@ -123,8 +122,6 @@ function update(time) {
   onFire.y = player.y
 
   onFire.anims.play('animFire', true);
-
-  console.log("hp", hp);
 
   if (cursors.up.isDown) {
     this.physics.velocityFromRotation(
